@@ -54,12 +54,11 @@ if(WITH_ROS_EXAMPLES)
 
 
 
-# # Copying config files and depth compute libraries from sdk/config, sdk/lib folders to build/examples/first-frame and build/first-frame/Debug or Release folders    
-# add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD
-# COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../../sdk/src/cameras/itof-camera/config ${ROS_HOME}/
-#     COMMENT "Copying cfgs and libs to build config "
-# )
+# Copying config files and depth compute libraries from sdk/config, sdk/lib folders to build/examples/first-frame and build/first-frame/Debug or Release folders    
+add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/config ${ROS_HOME}/
+    COMMENT "Copying cfgs and libs to build config "
+)
   
-
 endif()
 
