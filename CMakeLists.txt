@@ -43,6 +43,11 @@ target_link_libraries(aditof_camera_node)
 
 add_dependencies(aditof_camera_node ${PROJECT_NAME}_gencfg)
 
+# Copying config files and depth compute libraries from sdk/config, sdk/lib folders to build/examples/first-frame and build/first-frame/Debug or Release folders    
+add_custom_command( TARGET aditof_camera_node POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/config /home/$ENV{USER}/.ros/config
+    COMMENT "Copying cfgs and libs to build config "
+)
 
 if(WITH_ROS_EXAMPLES)
   find_package(catkin REQUIRED COMPONENTS rviz)
@@ -56,12 +61,6 @@ if(WITH_ROS_EXAMPLES)
   
   target_link_libraries(aditof_rviz_pcl aditof::aditof)
   target_link_libraries(aditof_rviz_pcl ${catkin_LIBRARIES})
-
-# Copying config files and depth compute libraries from sdk/config, sdk/lib folders to build/examples/first-frame and build/first-frame/Debug or Release folders    
-add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/config ${ROS_HOME}/
-    COMMENT "Copying cfgs and libs to build config "
-)
   
 endif()
 
