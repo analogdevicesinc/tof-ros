@@ -11,6 +11,9 @@ list(APPEND CMAKE_PREFIX_PATH "/usr/local;/opt/glog;/opt/protobuf;/opt/websocket
 # Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs dynamic_reconfigure roslib)
 find_package(aditof ${VERSION} REQUIRED)
+find_library(TOFI_COMPUTE
+  NAMES tofi_compute
+  PATHS /usr/lib)
 
 generate_dynamic_reconfigure_options(
   cfg/Aditof_roscpp.cfg
@@ -34,11 +37,11 @@ target_sources(aditof_camera_node
 target_link_libraries(aditof_camera_node aditof::aditof)
 target_link_libraries(aditof_camera_node ${catkin_LIBRARIES})
 
-add_dependencies(aditof_camera_node ${PROJECT_NAME}_gencfg)
+add_library(tofi_compute SHARED IMPORTED)
+target_link_libraries(aditof_camera_node)
 
-# #Creating soft links toward the .so depthCompute libraries next to repository
-# file(CREATE_LINK "${LIBTOFI_LIBDIR_PATH}/libtofi_compute.so" "/usr/lib/libtofi_compute.so" SYMBOLIC)
-# file(CREATE_LINK "${LIBTOFI_LIBDIR_PATH}/libtofi_config.so" "/usr/lib/libtofi_config.so" SYMBOLIC)
+
+add_dependencies(aditof_camera_node ${PROJECT_NAME}_gencfg)
 
 
 if(WITH_ROS_EXAMPLES)
@@ -49,10 +52,10 @@ if(WITH_ROS_EXAMPLES)
                     ${SOURCES})
   target_sources(aditof_rviz_pcl
                  INTERFACE ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME})
+  
+  
   target_link_libraries(aditof_rviz_pcl aditof::aditof)
   target_link_libraries(aditof_rviz_pcl ${catkin_LIBRARIES})
-
-
 
 # Copying config files and depth compute libraries from sdk/config, sdk/lib folders to build/examples/first-frame and build/first-frame/Debug or Release folders    
 add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD
