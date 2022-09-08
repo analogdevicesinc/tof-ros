@@ -1,6 +1,6 @@
 # ROS Wrapper for Time of Flight SDK of Analog Devices&copy; (for Ubuntu)
 
-## Installation
+## ROS Installation
 
 - Install the recommended [ROS distribution](http://wiki.ros.org/Distributions) for your operating system**
   - [ROS Install page](http://wiki.ros.org/ROS/Installation)
@@ -41,9 +41,13 @@ wget https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/tof_roscpp.deb
 sudo dpkg -i tof_roscpp.deb
 ```
 
-- After preparing the neccessary libraries open the general catkin workspace and in the ```src``` directory clone <b>THIS</b> repository and in the main catkin directory run the: ```catkin_make``` commad.
+- After preparing the neccessary libraries open the general catkin workspace and in the ```src```  and run 
+```console
+git clone https://github.com/rbudai98/tof_roscpp.git
+```
+and in the main catkin directory run the: ```catkin_make``` commad.
 
-## Starting the packages:
+## Starting with packages:
 ### Starting camera node
 * For <b>USB</b> type camera connections with RQT dynamic reconfigure GUI use the following commands:
     ```console
