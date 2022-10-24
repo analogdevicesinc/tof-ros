@@ -49,12 +49,12 @@ void PublisherFactory::createNew(ModeTypes mode, ros::NodeHandle nHandle,
     switch (mode) {
     case ModeTypes::mode7: {
         enableCameraDepthCompute(camera, m_enableDepthCompute);
-        setFrameType(camera, "qmp");
+        setFrameType(camera, "lrqmp");
         break;
     }
     case ModeTypes::mode10: {
         enableCameraDepthCompute(camera, m_enableDepthCompute);
-        setFrameType(camera, "mp");
+        setFrameType(camera, "lrmp");
         break;
     }
     default:
