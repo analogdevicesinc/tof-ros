@@ -36,7 +36,7 @@
 #include <glog/logging.h>
 #include <mutex>
 
-enum class ModeTypes { NONE, mode3, mode7, mode10 };
+enum class ModeTypes { NONE, mode1, mode2, mode3 };
 
 std::string *parseArgs(int argc, char **argv);
 std::shared_ptr<aditof::Camera> initCamera(std::string *arguments);
