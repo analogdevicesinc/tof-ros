@@ -21,7 +21,7 @@ Also make sure to run ```sudo make install``` at the end of the build
 In directory ```catkin_ws/src/``` clone the repository:
 
 ```console
-git clone https://github.com/rbudai98/tof_roscpp.git
+git clone https://github.com/analogdevicesinc/tof-ros
 ```
 
 After cloning the repository in the ``catkin_ws/ run the following command:
