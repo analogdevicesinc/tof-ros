@@ -44,14 +44,16 @@ RUN \
 #   && cmake -DUSE_DEPTH_COMPUTE_OPENSOURCE=1 -DWITH_NETWORK=1 -DWITH_EXAMPLES=off -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets" .. \
 #   && cmake --build . --target install 
 
-#Install ROS2
+#Install ROS
 RUN \
-  sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+  apt-get update && apt-get install -y lsb-release && apt-get clean all \
+  && sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
   && apt-get install -y curl 
 RUN \
-  curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - \
-  && apt-get update -y \
-  && apt-get install -y ros-noetic-desktop
+  curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - \
+  && apt-get update -y 
+RUN \
+  apt-get install -y ros-noetic-desktop
 
 RUN \
   mkdir catkin_ws && cd catkin_ws && mkdir src
