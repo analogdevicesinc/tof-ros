@@ -82,7 +82,7 @@ void PointCloud2Msg::setDataMembers(const std::shared_ptr<Camera> &camera,
     const int frameHeight = static_cast<int>(msg.height);
     const int frameWidth = static_cast<int>(msg.width);
 
-    uint16_t *frameDataXYZ = getFrameData(frame, "xyz");
+    int16_t *frameDataXYZ = reinterpret_cast<int16_t*>(getFrameData(frame, "xyz"));
     uint16_t *frameDataIR = getFrameData(frame, "ir");
 
     irTo16bitGrayscale(frameDataIR, frameWidth, frameHeight);
