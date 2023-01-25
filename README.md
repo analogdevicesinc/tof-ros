@@ -53,9 +53,10 @@ source devel/setup.bash
 
 
  [mode]:
-* 1 -> LR - QMP mode of the camera (Long Range Quarter Megapixel)
-* 2 -> LR - MP mode of the camera (ong Range Megapixel)
-* 3 -> VGA mode of the camera (ONLY for Tembin)
+* 1 -> SR - QMP mode of the camera (Short Range Quarter Megapixel)
+* 2 -> SR - MP mode of the camera (Short Range Megapixel)
+* 3 -> LR - QMP mode of the camera (Long Range Quarter Megapixel)
+* 4 -> LR - MP mode of the camera (Long Range Megapixel)
 
 
 ###  Dynamic reconfigure window:
