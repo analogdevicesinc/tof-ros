@@ -43,9 +43,10 @@ source devel/setup.bash
 
 ### Parameters:
  [config_file:"<<b>path></b>"]
-* Crosby with Pulsatrix: "```config/config_walden_3500_nxp.json```"
-* Crosby: "```config/config_crosby_nxp.json```"
-* Walden: "```config/config_walden_nxp.json```"
+* Crosby with Pulsatrix: "```tof_config/config_crosby_adsd3500_new_modes.json```"
+* Tembin with Pulsatrix: "```tof_config/config_crosby_adsd3500_adsd3030_new_modes.json```"
+* Crosby: "```tof_config/config_crosby_nxp.json```"
+* Walden: "```tof_config/config_walden_nxp.json```"
 
  [use_depthCompute] 
  - `true` for enabling Depth Compute libraries
