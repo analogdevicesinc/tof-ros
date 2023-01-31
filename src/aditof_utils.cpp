@@ -361,6 +361,9 @@ enum ModeTypes intToMode(int var) {
     case 2:
         newMode = ModeTypes::mode3;
         break;
+    case 3:
+        newMode = ModeTypes::mode4;
+        break;
     }
     return (newMode);
 }

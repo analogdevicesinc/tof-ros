@@ -43,9 +43,10 @@ source devel/setup.bash
 
 ### Parameters:
  [config_file:"<<b>path></b>"]
-* Crosby with Pulsatrix: "```config/config_walden_3500_nxp.json```"
-* Crosby: "```config/config_crosby_nxp.json```"
-* Walden: "```config/config_walden_nxp.json```"
+* ```tof_config/config_crosby_adsd3500_new_modes.json```"
+* ```tof_config/config_adsd3500_adsd3030_new_modes.json```"
+* ```tof_config/config_crosby_nxp.json```"
+* ```tof_config/config_walden_nxp.json```"
 
  [use_depthCompute] 
  - `true` for enabling Depth Compute libraries
@@ -53,9 +54,10 @@ source devel/setup.bash
 
 
  [mode]:
-* 1 -> LR - QMP mode of the camera (Long Range Quarter Megapixel)
-* 2 -> LR - MP mode of the camera (ong Range Megapixel)
-* 3 -> VGA mode of the camera (ONLY for Tembin)
+* 1 -> SR - QMP mode of the camera (Short Range Quarter Megapixel)
+* 2 -> SR - MP mode of the camera (Short Range Megapixel)
+* 3 -> LR - QMP mode of the camera (Long Range Quarter Megapixel)
+* 4 -> LR - MP mode of the camera (Long Range Megapixel)
 
 
 ###  Dynamic reconfigure window:
