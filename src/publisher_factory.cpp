@@ -46,31 +46,48 @@ void PublisherFactory::createNew(ModeTypes mode, ros::NodeHandle nHandle,
     stopCamera(camera);
     deletePublishers(camera);
 
-    switch (mode) {
-    case ModeTypes::mode1: {
+    std::vector<std::string> availableFrameTypes;
+    getAvailableFrameTypes(camera, availableFrameTypes);
+
+    if (availableFrameTypes.size > 1)
+    {
+        switch (mode) {
+        case ModeTypes::mode1: {
+            enableCameraDepthCompute(camera, m_enableDepthCompute);
+            setFrameType(camera, availableFrameTypes.at(0));
+            m_currentMode = ModeTypes::mode1; 
+            break;
+        }
+        case ModeTypes::mode2: {
+            enableCameraDepthCompute(camera, m_enableDepthCompute);
+            setFrameType(camera,  availableFrameTypes.at(1));
+            m_currentMode = ModeTypes::mode2; 
+            break;
+        }
+        case ModeTypes::mode3: {
+            enableCameraDepthCompute(camera, m_enableDepthCompute);
+            setFrameType(camera,  availableFrameTypes.at(2));
+            m_currentMode = ModeTypes::mode3; 
+            break;
+        }
+        case ModeTypes::mode4: {
+            enableCameraDepthCompute(camera, m_enableDepthCompute);
+            setFrameType(camera,  availableFrameTypes.at(3));
+            m_currentMode = ModeTypes::mode4; 
+            break;
+        }
+        default:
+            break;
+        }    
+    }
+    else
+    {
         enableCameraDepthCompute(camera, m_enableDepthCompute);
-        setFrameType(camera, "sr_qnative");
-        break;
+        setFrameType(camera, availableFrameTypes.at(0));
+        m_currentMode = ModeTypes::mode1; 
     }
-    case ModeTypes::mode2: {
-        enableCameraDepthCompute(camera, m_enableDepthCompute);
-        setFrameType(camera, "sr_native");
-        break;
-    }
-    case ModeTypes::mode3: {
-        enableCameraDepthCompute(camera, m_enableDepthCompute);
-        setFrameType(camera, "lr_qnative");
-        break;
-    }
-    case ModeTypes::mode4: {
-        enableCameraDepthCompute(camera, m_enableDepthCompute);
-        setFrameType(camera, "lr_native");
-        break;
-    }
-    default:
-        break;
-    }
-    m_currentMode = mode;
+
+
 
     LOG(INFO) << "Changed enable depth compute type";
     *frame = new aditof::Frame();

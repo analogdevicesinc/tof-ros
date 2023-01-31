@@ -100,6 +100,8 @@ std::string *parseArgs(int argc, char **argv) {
     return result;
 }
 
+std::
+
 std::shared_ptr<Camera> initCamera(std::string *arguments) {
 
     Status status = Status::OK;
@@ -135,6 +137,19 @@ std::shared_ptr<Camera> initCamera(std::string *arguments) {
     }
 
     return camera;
+}
+
+void getAvailableFrameTypes(const std::shared_ptr<aditof::Camera> &camera,
+std::vector<std::string> &availableFrameTypes)
+{
+    //get available frae types of camera
+    aditof::Status status = aditof::Status::OK;
+
+    status = camera->getAvailableFrameTypes(availableFrameTypes);
+    if (status != Status::OK) {
+        LOG(ERROR) << "Couldn't get available frame types";
+        return;
+    }
 }
 
 void enableCameraDepthCompute(const std::shared_ptr<aditof::Camera> &camera,
