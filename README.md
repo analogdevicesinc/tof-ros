@@ -43,10 +43,10 @@ source devel/setup.bash
 
 ### Parameters:
  [config_file:"<<b>path></b>"]
-* Crosby with Pulsatrix: "```tof_config/config_crosby_adsd3500_new_modes.json```"
-* Tembin with Pulsatrix: "```tof_config/config_crosby_adsd3500_adsd3030_new_modes.json```"
-* Crosby: "```tof_config/config_crosby_nxp.json```"
-* Walden: "```tof_config/config_walden_nxp.json```"
+* ```tof_config/config_crosby_adsd3500_new_modes.json```"
+* ```tof_config/config_adsd3500_adsd3030_new_modes.json```"
+* ```tof_config/config_crosby_nxp.json```"
+* ```tof_config/config_walden_nxp.json```"
 
  [use_depthCompute] 
  - `true` for enabling Depth Compute libraries
