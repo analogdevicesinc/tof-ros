@@ -100,7 +100,6 @@ std::string *parseArgs(int argc, char **argv) {
     return result;
 }
 
-std::
 
 std::shared_ptr<Camera> initCamera(std::string *arguments) {
 

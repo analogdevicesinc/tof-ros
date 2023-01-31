@@ -49,7 +49,7 @@ void PublisherFactory::createNew(ModeTypes mode, ros::NodeHandle nHandle,
     std::vector<std::string> availableFrameTypes;
     getAvailableFrameTypes(camera, availableFrameTypes);
 
-    if (availableFrameTypes.size > 1)
+    if (availableFrameTypes.size() > 1)
     {
         switch (mode) {
         case ModeTypes::mode1: {
