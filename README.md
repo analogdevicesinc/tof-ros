@@ -54,10 +54,11 @@ source devel/setup.bash
 
 
  [mode]:
-* 1 -> SR - QMP mode of the camera (Short Range Quarter Megapixel)
-* 2 -> SR - MP mode of the camera (Short Range Megapixel)
-* 3 -> LR - QMP mode of the camera (Long Range Quarter Megapixel)
-* 4 -> LR - MP mode of the camera (Long Range Megapixel)
+|          | New modes                                                                      | Old modes                                               |
+|----------|--------------------------------------------------------------------------------|---------------------------------------------------------|
+| adsd3500 | mode 0 - sr-native; mode 1 - lr-native; mode 2 - sr-qnative; mode 3 - lr-qnative  | mode 0 - lt_bin; mode 1 - pcmmp; mode 2 - qmp; mode 3 - mp |
+| adsd3030 | mode 0 - sr-native; mode 1 - lr-native; mode 2 - sr-qnative; mode 3 - lr-qnative  | mode 0 - vga                                            |
+
 
 
 ###  Dynamic reconfigure window:
