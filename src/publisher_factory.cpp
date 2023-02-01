@@ -55,25 +55,25 @@ void PublisherFactory::createNew(ModeTypes mode, ros::NodeHandle nHandle,
         case ModeTypes::mode0: {
             enableCameraDepthCompute(camera, m_enableDepthCompute);
             setFrameType(camera, availableFrameTypes.at(0));
-            m_currentMode = ModeTypes::mode1; 
+            m_currentMode = ModeTypes::mode0; 
             break;
         }
         case ModeTypes::mode1: {
             enableCameraDepthCompute(camera, m_enableDepthCompute);
             setFrameType(camera,  availableFrameTypes.at(1));
-            m_currentMode = ModeTypes::mode2; 
+            m_currentMode = ModeTypes::mode1; 
             break;
         }
         case ModeTypes::mode2: {
             enableCameraDepthCompute(camera, m_enableDepthCompute);
             setFrameType(camera,  availableFrameTypes.at(2));
-            m_currentMode = ModeTypes::mode3; 
+            m_currentMode = ModeTypes::mode2; 
             break;
         }
         case ModeTypes::mode3: {
             enableCameraDepthCompute(camera, m_enableDepthCompute);
             setFrameType(camera,  availableFrameTypes.at(3));
-            m_currentMode = ModeTypes::mode4; 
+            m_currentMode = ModeTypes::mode3; 
             break;
         }
         default:
