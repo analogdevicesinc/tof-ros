@@ -68,6 +68,7 @@ int getRangeMax(const std::shared_ptr<aditof::Camera> &camera);
 int getRangeMin(const std::shared_ptr<aditof::Camera> &camera);
 void irTo16bitGrayscale(uint16_t *frameData, int width, int height);
 enum ModeTypes intToMode(int var);
+int modeToInt(ModeTypes mode);
 void getAvailableFrameTypes(const std::shared_ptr<aditof::Camera> &camera,
 std::vector<std::string> &availableFrameTypes);
 

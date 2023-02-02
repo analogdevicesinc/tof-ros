@@ -41,24 +41,26 @@
 #include <typeinfo>
 #include <vector>
 
-class PublisherFactory {
-  public:
-    PublisherFactory();
-    void createNew(ModeTypes mode, ros::NodeHandle nHandle,
-                   const std::shared_ptr<aditof::Camera> &camera,
-                   aditof::Frame **frame);
-    void updatePublishers(const std::shared_ptr<aditof::Camera> &camera,
-                          aditof::Frame **frame);
-    void deletePublishers(const std::shared_ptr<aditof::Camera> &camera);
-    void setDepthFormat(const int val);
+class PublisherFactory
+{
+public:
+  PublisherFactory();
+  void createNew(ModeTypes mode, ros::NodeHandle nHandle,
+                 const std::shared_ptr<aditof::Camera> &camera,
+                 aditof::Frame **frame);
+  void updatePublishers(const std::shared_ptr<aditof::Camera> &camera,
+                        aditof::Frame **frame);
+  void deletePublishers(const std::shared_ptr<aditof::Camera> &camera);
+  void setDepthFormat(const int val);
 
-  private:
-    std::vector<ros::Publisher> img_publishers;
-    std::vector<std::shared_ptr<AditofSensorMsg>> imgMsgs;
+private:
+  std::vector<ros::Publisher> img_publishers;
+  std::vector<std::shared_ptr<AditofSensorMsg>> imgMsgs;
 
-  public:
-    ModeTypes m_currentMode = ModeTypes::NONE;
-    bool m_enableDepthCompute = 1;
+public:
+  ModeTypes m_currentMode = ModeTypes::NONE;
+  bool m_enableDepthCompute = 1;
+  bool streamOn = false;
 };
 
 #endif // PUBLISHER_FACTORY_H

@@ -378,6 +378,26 @@ enum ModeTypes intToMode(int var) {
     case 3:
         newMode = ModeTypes::mode3;
         break;
+    default:
+        LOG(ERROR)<<"Wrong mode int format";
     }
+    
     return (newMode);
+}
+
+int modeToInt(ModeTypes mode)
+{
+    switch(mode){
+    case ModeTypes::mode0:
+        return 0;
+    case ModeTypes::mode1:
+        return 1;
+    case ModeTypes::mode2:
+        return 2;
+    case ModeTypes::mode3:
+        return 3;
+    default:
+        LOG(ERROR)<<"Wrong mode format";
+    }
+    return -1;
 }
