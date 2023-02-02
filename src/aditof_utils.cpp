@@ -100,6 +100,7 @@ std::string *parseArgs(int argc, char **argv) {
     return result;
 }
 
+
 std::shared_ptr<Camera> initCamera(std::string *arguments) {
 
     Status status = Status::OK;
@@ -135,6 +136,19 @@ std::shared_ptr<Camera> initCamera(std::string *arguments) {
     }
 
     return camera;
+}
+
+void getAvailableFrameTypes(const std::shared_ptr<aditof::Camera> &camera,
+std::vector<std::string> &availableFrameTypes)
+{
+    //get available frae types of camera
+    aditof::Status status = aditof::Status::OK;
+
+    status = camera->getAvailableFrameTypes(availableFrameTypes);
+    if (status != Status::OK) {
+        LOG(ERROR) << "Couldn't get available frame types";
+        return;
+    }
 }
 
 void enableCameraDepthCompute(const std::shared_ptr<aditof::Camera> &camera,
@@ -353,17 +367,47 @@ enum ModeTypes intToMode(int var) {
     ModeTypes newMode;
     switch (var) {
     case 0:
-        newMode = ModeTypes::mode1;
+        newMode = ModeTypes::mode0;
         break;
     case 1:
-        newMode = ModeTypes::mode2;
+        newMode = ModeTypes::mode1;
         break;
     case 2:
-        newMode = ModeTypes::mode3;
+        newMode = ModeTypes::mode2;
         break;
     case 3:
-        newMode = ModeTypes::mode4;
+        newMode = ModeTypes::mode3;
         break;
+    default:
+        LOG(ERROR)<<"Wrong mode int format";
     }
+    
     return (newMode);
+}
+
+int modeToInt(ModeTypes mode)
+{
+    switch(mode){
+    case ModeTypes::mode0:
+        return 0;
+    case ModeTypes::mode1:
+        return 1;
+    case ModeTypes::mode2:
+        return 2;
+    case ModeTypes::mode3:
+        return 3;
+    default:
+        LOG(ERROR)<<"Wrong mode format";
+    }
+    return -1;
+}
+
+void versioningAuxiliaryFunction(const std::shared_ptr<aditof::Camera> &camera)
+{
+    aditof::CameraDetails cameraDetails;
+	camera->getDetails(cameraDetails);
+
+	LOG(INFO) << "SD card image version: " << cameraDetails.sdCardImageVersion;
+	LOG(INFO) << "Kernel version: " << cameraDetails.kernelVersion;
+	LOG(INFO) << "U-Boot version: " << cameraDetails.uBootVersion;
 }
