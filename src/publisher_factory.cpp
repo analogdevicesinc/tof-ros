@@ -55,11 +55,6 @@ void PublisherFactory::createNew(ModeTypes mode, ros::NodeHandle nHandle,
     getAvailableFrameTypes(camera, availableFrameTypes);
     int modeInt = modeToInt(mode);
 
-    for (int i=0;i<availableFrameTypes.size();i++)
-    {
-        LOG(INFO)<<availableFrameTypes.at(i)<<std::endl;
-    }
-
 
     if (0 <= modeInt && modeInt < availableFrameTypes.size())
     {

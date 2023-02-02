@@ -78,9 +78,9 @@ void callback(aditof_roscpp::Aditof_roscppConfig &config,
 int main(int argc, char **argv)
 {
 
-    ros::init(argc, argv, "aditof_camera_node");
+
     PublisherFactory publishers;
-    auto tmp = new Frame;
+
     std::string *arguments = parseArgs(argc, argv);
     /*
     pos 0 - ip
@@ -91,10 +91,18 @@ int main(int argc, char **argv)
     */
     
     std::shared_ptr<Camera> camera = initCamera(arguments);
+    sleep(1);
     versioningAuxiliaryFunction(camera);
+
+    ros::init(argc, argv, "aditof_camera_node");
+
     // create handle
     ros::NodeHandle nHandle("aditof_roscpp");
+    
+    //generating frame
+    auto tmp = new Frame;
     aditof::Frame **frame = &tmp;
+    
     publishers.m_enableDepthCompute =
         (std::strcmp(arguments[2].c_str(), "true") ? false : true);
     if (std::strcmp(arguments[4].c_str(), "true") != 0)
