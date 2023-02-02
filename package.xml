@@ -4,13 +4,13 @@
   <version>0.0.0</version>
   <description>The aditof_ros package</description>
 
-  <maintainer email="andreea.sandulescu@analog.com">Andreea Sandulescu</maintainer>
+  <maintainer email="ronert.budai@analog.com">Robert Budai</maintainer>
 
   <license>BSD-3-Clause</license>
 
   <url type="website">https://github.com/analogdevicesinc/ToF/</url>
 
-  <author email="andreea.sandulescu@analog.com">Andreea Sandulescu</author>
+  <author email="robert.budai@analog.com">Robert Budai</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 

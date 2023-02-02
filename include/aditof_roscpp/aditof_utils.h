@@ -36,7 +36,7 @@
 #include <glog/logging.h>
 #include <mutex>
 
-enum class ModeTypes { NONE, mode1, mode2, mode3 };
+enum class ModeTypes { NONE, mode0, mode1, mode2, mode3};
 
 std::string *parseArgs(int argc, char **argv);
 std::shared_ptr<aditof::Camera> initCamera(std::string *arguments);
@@ -68,5 +68,10 @@ int getRangeMax(const std::shared_ptr<aditof::Camera> &camera);
 int getRangeMin(const std::shared_ptr<aditof::Camera> &camera);
 void irTo16bitGrayscale(uint16_t *frameData, int width, int height);
 enum ModeTypes intToMode(int var);
+int modeToInt(ModeTypes mode);
+void getAvailableFrameTypes(const std::shared_ptr<aditof::Camera> &camera,
+std::vector<std::string> &availableFrameTypes);
+void versioningAuxiliaryFunction(const std::shared_ptr<aditof::Camera> &camera);
+
 
 #endif // ADITOF_UTILS_H

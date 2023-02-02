@@ -46,9 +46,10 @@ std::mutex m_mtxDynamicRec2;
 void callback(aditof_roscpp::Aditof_roscppConfig &config,
               PublisherFactory *publisher, ros::NodeHandle *nHandle,
               const std::shared_ptr<aditof::Camera> &camera,
-              aditof::Frame **frame) {
+              aditof::Frame **frame)
+{
 
-    //aquire two mutexes and blocking publisher message updates
+    // aquire two mutexes and blocking publisher message updates
     while (m_mtxDynamicRec.try_lock())
         ;
     while (m_mtxDynamicRec2.try_lock())
@@ -56,7 +57,8 @@ void callback(aditof_roscpp::Aditof_roscppConfig &config,
     ModeTypes newMode = intToMode(config.camera_mode);
 
     if (publisher->m_currentMode != newMode ||
-        publisher->m_enableDepthCompute != config.depth_compute) {
+        publisher->m_enableDepthCompute != config.depth_compute)
+    {
 
         publisher->m_enableDepthCompute = (bool)(config.depth_compute);
 
@@ -64,57 +66,71 @@ void callback(aditof_roscpp::Aditof_roscppConfig &config,
         LOG(INFO) << "New mode selected";
     }
 
-    //set depth data format
+    // set depth data format
     publisher->setDepthFormat(config.depth_data_format);
 
-    //release mutexes and let ros spin work
+    // release mutexes and let ros spin work
     m_mtxDynamicRec.unlock();
     m_mtxDynamicRec2.unlock();
-    //camera->start();
+    // camera->start();
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
+
 
     PublisherFactory publishers;
-    auto tmp = new Frame;
+
     std::string *arguments = parseArgs(argc, argv);
     /*
     pos 0 - ip
     pos 1 - config_path
     pos 2 - use_depthCompute
     pos 3 - mode
-    pos 4 - rqt 
+    pos 4 - rqt
     */
-
+    
     std::shared_ptr<Camera> camera = initCamera(arguments);
-    ROS_ASSERT_MSG(camera, "initCamera call failed");
+    sleep(1);
+    versioningAuxiliaryFunction(camera);
+
     ros::init(argc, argv, "aditof_camera_node");
-    //ROS_ASSERT_MSG(camera, "ros init failed");
-    //create handle
+
+    // create handle
     ros::NodeHandle nHandle("aditof_roscpp");
+    
+    //generating frame
+    auto tmp = new Frame;
     aditof::Frame **frame = &tmp;
+    
     publishers.m_enableDepthCompute =
         (std::strcmp(arguments[2].c_str(), "true") ? false : true);
-    if (std::strcmp(arguments[4].c_str(), "true") != 0) {
+    if (std::strcmp(arguments[4].c_str(), "true") != 0)
+    {
         publishers.createNew(intToMode(std::stoi(arguments[3])), nHandle,
                              camera, frame);
     }
     dynamic_reconfigure::Server<aditof_roscpp::Aditof_roscppConfig> server;
-    if (std::strcmp(arguments[4].c_str(), "true") == 0) {
+    if (std::strcmp(arguments[4].c_str(), "true") == 0)
+    {
         dynamic_reconfigure::Server<
             aditof_roscpp::Aditof_roscppConfig>::CallbackType f;
         f = boost::bind(&callback, _1, &publishers, &nHandle, camera, frame);
         server.setCallback(f);
     }
 
-    while (ros::ok()) {
+    while (ros::ok())
+    {
         while (m_mtxDynamicRec.try_lock())
             ;
         while (m_mtxDynamicRec2.try_lock())
             ;
 
         m_mtxDynamicRec.unlock();
-        getNewFrame(camera, frame);
+        if (publishers.streamOn)
+        {
+            getNewFrame(camera, frame);
+        }
         publishers.updatePublishers(camera, frame);
         ros::spinOnce();
         m_mtxDynamicRec2.unlock();

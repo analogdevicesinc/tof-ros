@@ -32,6 +32,11 @@ source devel/setup.bash
 ```
 
 ### Starting the camera node 
+- In the general ROS2 workspace run the following code, setting up the path towards shaed library:
+```console
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH;/opt/websockets/lib"
+```
+
 
 |                                 |          |   |
 |---------------------------------|----------|---|
@@ -43,9 +48,10 @@ source devel/setup.bash
 
 ### Parameters:
  [config_file:"<<b>path></b>"]
-* Crosby with Pulsatrix: "```config/config_walden_3500_nxp.json```"
-* Crosby: "```config/config_crosby_nxp.json```"
-* Walden: "```config/config_walden_nxp.json```"
+* ```tof_config/config_crosby_adsd3500_new_modes.json```"
+* ```tof_config/config_adsd3500_adsd3030_new_modes.json```"
+* ```tof_config/config_crosby_nxp.json```"
+* ```tof_config/config_walden_nxp.json```"
 
  [use_depthCompute] 
  - `true` for enabling Depth Compute libraries
@@ -53,9 +59,11 @@ source devel/setup.bash
 
 
  [mode]:
-* 1 -> LR - QMP mode of the camera (Long Range Quarter Megapixel)
-* 2 -> LR - MP mode of the camera (ong Range Megapixel)
-* 3 -> VGA mode of the camera (ONLY for Tembin)
+|          | New modes                                                                      | Old modes                                               |
+|----------|--------------------------------------------------------------------------------|---------------------------------------------------------|
+| adsd3500 | mode 0 - sr-native; mode 1 - lr-native; mode 2 - sr-qnative; mode 3 - lr-qnative  | mode 0 - lt_bin; mode 1 - pcmmp; mode 2 - qmp; mode 3 - mp |
+| adsd3030 | mode 0 - sr-native; mode 1 - lr-native; mode 2 - sr-qnative; mode 3 - lr-qnative  | mode 0 - vga                                            |
+
 
 
 ###  Dynamic reconfigure window:
