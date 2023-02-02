@@ -401,3 +401,13 @@ int modeToInt(ModeTypes mode)
     }
     return -1;
 }
+
+void versioningAuxiliaryFunction(const std::shared_ptr<aditof::Camera> &camera)
+{
+    aditof::CameraDetails cameraDetails;
+	camera->getDetails(cameraDetails);
+
+	LOG(INFO) << "SD card image version: " << cameraDetails.sdCardImageVersion;
+	LOG(INFO) << "Kernel version: " << cameraDetails.kernelVersion;
+	LOG(INFO) << "U-Boot version: " << cameraDetails.uBootVersion;
+}

@@ -71,5 +71,7 @@ enum ModeTypes intToMode(int var);
 int modeToInt(ModeTypes mode);
 void getAvailableFrameTypes(const std::shared_ptr<aditof::Camera> &camera,
 std::vector<std::string> &availableFrameTypes);
+void versioningAuxiliaryFunction(const std::shared_ptr<aditof::Camera> &camera);
+
 
 #endif // ADITOF_UTILS_H

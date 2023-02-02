@@ -78,6 +78,7 @@ void callback(aditof_roscpp::Aditof_roscppConfig &config,
 int main(int argc, char **argv)
 {
 
+    ros::init(argc, argv, "aditof_camera_node");
     PublisherFactory publishers;
     auto tmp = new Frame;
     std::string *arguments = parseArgs(argc, argv);
@@ -88,9 +89,9 @@ int main(int argc, char **argv)
     pos 3 - mode
     pos 4 - rqt
     */
-
+    
     std::shared_ptr<Camera> camera = initCamera(arguments);
-    ros::init(argc, argv, "aditof_camera_node");
+    versioningAuxiliaryFunction(camera);
     // create handle
     ros::NodeHandle nHandle("aditof_roscpp");
     aditof::Frame **frame = &tmp;
