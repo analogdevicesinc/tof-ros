@@ -379,7 +379,9 @@ enum ModeTypes intToMode(int var) {
         newMode = ModeTypes::mode3;
         break;
     default:
-        LOG(ERROR)<<"Wrong mode int format";
+        LOG(ERROR) << "Unrecognized mode type. Defaulting to mode1.";
+        newMode = ModeTypes::mode1;
+
     }
     
     return (newMode);
