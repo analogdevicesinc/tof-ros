@@ -57,9 +57,10 @@ if(WITH_ROS_EXAMPLES)
   target_link_libraries(aditof_rviz_pcl ${catkin_LIBRARIES})
   
 endif()
-
+message(STATUS "Copy files %%%%%%%%%%%%%%%%")
 ## Copying config files and depth compute libraries from sdk/config, sdk/lib folders to build/examples/first-frame and build/first-frame/Debug or Release folders
-FILE(GLOB CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/config/*)
-# install(FILES ${CONFIG_FILES} DESTINATION lib/../../../config/)
-install(FILES ${CONFIG_FILES} DESTINATION lib/${PROJECT_NAME}/config/)
+# FILE(GLOB CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/config/*)
+# install(FILES ${CONFIG_FILES} DESTINATION ${CMAKE_BINARY_DIR}/config/)
+# install(FILES ${CONFIG_FILES} DESTINATION lib/${PROJECT_NAME}/config/)
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR}/)
