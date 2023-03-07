@@ -56,12 +56,8 @@ void callback(aditof_roscpp::Aditof_roscppConfig &config,
         ;
     ModeTypes newMode = intToMode(config.camera_mode);
 
-    if (publisher->m_currentMode != newMode ||
-        publisher->m_enableDepthCompute != config.depth_compute)
+    if (publisher->m_currentMode != newMode)
     {
-
-        publisher->m_enableDepthCompute = (bool)(config.depth_compute);
-
         publisher->createNew(newMode, *nHandle, camera, frame);
         LOG(INFO) << "New mode selected";
     }
@@ -85,9 +81,8 @@ int main(int argc, char **argv)
     /*
     pos 0 - ip
     pos 1 - config_path
-    pos 2 - use_depthCompute
-    pos 3 - mode
-    pos 4 - rqt
+    pos 2 - mode
+    pos 3 - rqt
     */
     
     std::shared_ptr<Camera> camera = initCamera(arguments);
@@ -103,15 +98,13 @@ int main(int argc, char **argv)
     auto tmp = new Frame;
     aditof::Frame **frame = &tmp;
     
-    publishers.m_enableDepthCompute =
-        (std::strcmp(arguments[2].c_str(), "true") ? false : true);
-    if (std::strcmp(arguments[4].c_str(), "true") != 0)
+    if (std::strcmp(arguments[3].c_str(), "true") != 0)
     {
-        publishers.createNew(intToMode(std::stoi(arguments[3])), nHandle,
+        publishers.createNew(intToMode(std::stoi(arguments[2])), nHandle,
                              camera, frame);
     }
     dynamic_reconfigure::Server<aditof_roscpp::Aditof_roscppConfig> server;
-    if (std::strcmp(arguments[4].c_str(), "true") == 0)
+    if (std::strcmp(arguments[3].c_str(), "true") == 0)
     {
         dynamic_reconfigure::Server<
             aditof_roscpp::Aditof_roscppConfig>::CallbackType f;
