@@ -94,7 +94,8 @@ std::string *parseArgs(int argc, char **argv) {
     std::string *result = new std::string[5];
     result[0] = ip;
     result[1] = config_path;
-    result[2] = use_depthCompute;
+    // result[2] = use_depthCompute;
+    result[2] = "true";
     result[3] = mode;
     result[4] = rqt;
     return result;
