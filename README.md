@@ -31,7 +31,15 @@ catkin_make
 source devel/setup.bash
 ```
 
-### Starting the camera node 
+# Starting the camera node
+
+## With ```roslaunch```
+
+* EVAL-ADTF3175-NXZ : ```roslaunch aditof_roscpp camera_EVAL-ADTF3175-NXZ.launch```
+* EVAL-ADTF3175D-NXZ : ```roslaunch aditof_roscpp camera_EVAL-ADTF3175D-NXZ.launch```
+
+## With ```ros run```
+
 - In the general ROS2 workspace run the following code, setting up the path towards shaed library:
 ```console
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH;/opt/websockets/lib;/usr/local/lib"
