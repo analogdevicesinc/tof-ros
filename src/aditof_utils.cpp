@@ -7,8 +7,8 @@
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
@@ -20,14 +20,15 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 #include "aditof_utils.h"
 
@@ -92,7 +93,6 @@ std::string *parseArgs(int argc, char **argv) {
     return result;
 }
 
-
 std::shared_ptr<Camera> initCamera(std::string *arguments) {
 
     Status status = Status::OK;
@@ -131,9 +131,8 @@ std::shared_ptr<Camera> initCamera(std::string *arguments) {
 }
 
 void getAvailableFrameTypes(const std::shared_ptr<aditof::Camera> &camera,
-std::vector<std::string> &availableFrameTypes)
-{
-    //get available frae types of camera
+                            std::vector<std::string> &availableFrameTypes) {
+    // get available frae types of camera
     aditof::Status status = aditof::Status::OK;
 
     status = camera->getAvailableFrameTypes(availableFrameTypes);
@@ -145,7 +144,7 @@ std::vector<std::string> &availableFrameTypes)
 
 void enableCameraDepthCompute(const std::shared_ptr<aditof::Camera> &camera,
                               const bool value) {
-    //set depthCompute to on or off
+    // set depthCompute to on or off
     aditof::Status status = aditof::Status::OK;
 
     status = camera->setControl("enableDepthCompute", (value) ? "on" : "off");
@@ -290,7 +289,7 @@ void getNewFrame(const std::shared_ptr<Camera> &camera, aditof::Frame **frame) {
     try {
         status = camera->requestFrame(*frame);
         if (status != Status::OK) {
-            //LOG(ERROR) << "Could not request frame!";
+            // LOG(ERROR) << "Could not request frame!";
         }
     } catch (std::exception &e) {
     }
@@ -337,8 +336,8 @@ int getRangeMin(const std::shared_ptr<Camera> &camera) {
 void irTo16bitGrayscale(uint16_t *frameData, int width, int height) {
     std::vector<uint16_t> data(frameData, frameData + width * height);
 
-    auto min_val = 0;      //std::min_element(data.begin(), data.end());
-    auto max_val = 0x0fff; //std::max_element(data.begin(), data.end());
+    auto min_val = 0;      // std::min_element(data.begin(), data.end());
+    auto max_val = 0x0fff; // std::max_element(data.begin(), data.end());
     uint16_t delta = max_val - min_val;
     int minColorValue = 0;
 
@@ -373,15 +372,13 @@ enum ModeTypes intToMode(int var) {
     default:
         LOG(ERROR) << "Unrecognized mode type. Defaulting to mode1.";
         newMode = ModeTypes::mode1;
-
     }
-    
+
     return (newMode);
 }
 
-int modeToInt(ModeTypes mode)
-{
-    switch(mode){
+int modeToInt(ModeTypes mode) {
+    switch (mode) {
     case ModeTypes::mode0:
         return 0;
     case ModeTypes::mode1:
@@ -391,17 +388,17 @@ int modeToInt(ModeTypes mode)
     case ModeTypes::mode3:
         return 3;
     default:
-        LOG(ERROR)<<"Wrong mode format";
+        LOG(ERROR) << "Wrong mode format";
     }
     return -1;
 }
 
-void versioningAuxiliaryFunction(const std::shared_ptr<aditof::Camera> &camera)
-{
+void versioningAuxiliaryFunction(
+    const std::shared_ptr<aditof::Camera> &camera) {
     aditof::CameraDetails cameraDetails;
-	camera->getDetails(cameraDetails);
+    camera->getDetails(cameraDetails);
 
-	LOG(INFO) << "SD card image version: " << cameraDetails.sdCardImageVersion;
-	LOG(INFO) << "Kernel version: " << cameraDetails.kernelVersion;
-	LOG(INFO) << "U-Boot version: " << cameraDetails.uBootVersion;
+    LOG(INFO) << "SD card image version: " << cameraDetails.sdCardImageVersion;
+    LOG(INFO) << "Kernel version: " << cameraDetails.kernelVersion;
+    LOG(INFO) << "U-Boot version: " << cameraDetails.uBootVersion;
 }
