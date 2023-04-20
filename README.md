@@ -7,11 +7,16 @@ Install the recommended [ROS distribution](http://wiki.ros.org/Distributions) fo
   - [ROS Install page](http://wiki.ros.org/ROS/Installation)
 
 # 2. ToF dependency
-
 ## Download debian package:
-* ([Tof lib for Ubuntu 18.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/out_ubuntu18/tof_lib.deb))
-* ([Tof lib for Ubuntu 20.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/out_ubuntu20/tof_lib.deb))
-* ([Tof lib for Ubuntu 22.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/out_ubuntu22/tof_lib.deb))
+### For Crosby:
+* Tof lib for ([Ubuntu 18.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/crosby/out_ubuntu18/tof_lib.deb))
+* Tof lib for ([Ubuntu 20.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/crosby/out_ubuntu20/tof_lib.deb))
+* Tof lib for ([Ubuntu 22.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/crosby/out_ubuntu22/tof_lib.deb))
+
+### For Adsd3030:
+* Tof lib for ([Ubuntu 18.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/adsd3030/out_ubuntu18/tof_lib.deb))
+* Tof lib for ([Ubuntu 20.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/adsd3030/out_ubuntu20/tof_lib.deb))
+* Tof lib for ([Ubuntu 22.04](https://swdownloads.analog.com/cse/aditof/tof_deb_pkg/adsd3030/out_ubuntu22/tof_lib.deb))
 
 Install command: ```sudo dpkg -i tof_lib.deb```
 
@@ -53,6 +58,10 @@ source devel/setup.bash
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH;/opt/websockets/lib;/usr/local/lib"
 ```
 
+```console
+roslaunch aditof_roscpp camera_node.launch ip:=<ip addr> config_file:="<path> mode:=<mode number>
+```
+
 
 |                                 |          |   |
 |---------------------------------|----------|---|
@@ -69,11 +78,6 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH;/opt/websockets/lib;/usr/local/lib"
 * ```config/config_crosby_adsd3500_new_modes.json```
 * ```config/config_crosby_nxp.json```
 * ```config/config_crosby_old_modes.json```
-
-
- [use_depthCompute] 
- - `true` for enabling Depth Compute libraries
- - `false` for disabling Depth Compute libraries 
 
 
  [mode]:
