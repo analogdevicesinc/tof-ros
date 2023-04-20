@@ -7,8 +7,8 @@
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
@@ -20,14 +20,15 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 #include "aditof_roscpp/Aditof_roscppConfig.h"
 #include "message_factory.h"
@@ -46,8 +47,7 @@ std::mutex m_mtxDynamicRec2;
 void callback(aditof_roscpp::Aditof_roscppConfig &config,
               PublisherFactory *publisher, ros::NodeHandle *nHandle,
               const std::shared_ptr<aditof::Camera> &camera,
-              aditof::Frame **frame)
-{
+              aditof::Frame **frame) {
 
     // aquire two mutexes and blocking publisher message updates
     while (m_mtxDynamicRec.try_lock())
@@ -56,8 +56,7 @@ void callback(aditof_roscpp::Aditof_roscppConfig &config,
         ;
     ModeTypes newMode = intToMode(config.camera_mode);
 
-    if (publisher->m_currentMode != newMode)
-    {
+    if (publisher->m_currentMode != newMode) {
         publisher->createNew(newMode, *nHandle, camera, frame);
         LOG(INFO) << "New mode selected";
     }
@@ -71,20 +70,18 @@ void callback(aditof_roscpp::Aditof_roscppConfig &config,
     // camera->start();
 }
 
-int main(int argc, char **argv)
-{
-
+int main(int argc, char **argv) {
 
     PublisherFactory publishers;
 
     std::string *arguments = parseArgs(argc, argv);
     /*
-    pos 0 - ip
-    pos 1 - config_path
-    pos 2 - mode
-    pos 3 - rqt
-    */
-    
+  pos 0 - ip
+  pos 1 - config_path
+  pos 2 - mode
+  pos 3 - rqt
+  */
+
     std::shared_ptr<Camera> camera = initCamera(arguments);
     sleep(1);
     versioningAuxiliaryFunction(camera);
@@ -93,35 +90,31 @@ int main(int argc, char **argv)
 
     // create handle
     ros::NodeHandle nHandle("aditof_roscpp");
-    
-    //generating frame
+
+    // generating frame
     auto tmp = new Frame;
     aditof::Frame **frame = &tmp;
-    
-    if (std::strcmp(arguments[3].c_str(), "true") != 0)
-    {
+
+    if (std::strcmp(arguments[3].c_str(), "true") != 0) {
         publishers.createNew(intToMode(std::stoi(arguments[2])), nHandle,
                              camera, frame);
     }
     dynamic_reconfigure::Server<aditof_roscpp::Aditof_roscppConfig> server;
-    if (std::strcmp(arguments[3].c_str(), "true") == 0)
-    {
+    if (std::strcmp(arguments[3].c_str(), "true") == 0) {
         dynamic_reconfigure::Server<
             aditof_roscpp::Aditof_roscppConfig>::CallbackType f;
         f = boost::bind(&callback, _1, &publishers, &nHandle, camera, frame);
         server.setCallback(f);
     }
 
-    while (ros::ok())
-    {
+    while (ros::ok()) {
         while (m_mtxDynamicRec.try_lock())
             ;
         while (m_mtxDynamicRec2.try_lock())
             ;
 
         m_mtxDynamicRec.unlock();
-        if (publishers.streamOn)
-        {
+        if (publishers.streamOn) {
             getNewFrame(camera, frame);
         }
         publishers.updatePublishers(camera, frame);
