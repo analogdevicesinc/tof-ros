@@ -35,72 +35,69 @@ using namespace aditof;
 
 PointCloud2Msg::PointCloud2Msg() {}
 
-PointCloud2Msg::PointCloud2Msg(const std::shared_ptr<aditof::Camera> &camera,
-                               aditof::Frame **frame, ros::Time tStamp) {
-    // FrameDataToMsg(camera, frame, tStamp);
+PointCloud2Msg::PointCloud2Msg(
+  const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp)
+{
+  // FrameDataToMsg(camera, frame, tStamp);
 }
 
-void PointCloud2Msg::FrameDataToMsg(const std::shared_ptr<Camera> &camera,
-                                    aditof::Frame **frame, ros::Time tStamp) {
-    FrameDetails fDetails;
-    (*frame)->getDetails(fDetails);
+void PointCloud2Msg::FrameDataToMsg(
+  const std::shared_ptr<Camera> & camera, aditof::Frame ** frame, ros::Time tStamp)
+{
+  FrameDetails fDetails;
+  (*frame)->getDetails(fDetails);
 
-    setMetadataMembers(fDetails.width, fDetails.height, tStamp);
-    setDataMembers(camera, frame);
+  setMetadataMembers(fDetails.width, fDetails.height, tStamp);
+  setDataMembers(camera, frame);
 }
 
-void PointCloud2Msg::setMetadataMembers(int width, int height,
-                                        ros::Time tStamp) {
-    sensor_msgs::PointCloud2Modifier modifier(msg);
-    modifier.setPointCloud2Fields(4, "x", 1, sensor_msgs::PointField::FLOAT32,
-                                  "y", 1, sensor_msgs::PointField::FLOAT32, "z",
-                                  1, sensor_msgs::PointField::FLOAT32,
-                                  "intensity", 1,
-                                  sensor_msgs::PointField::UINT16);
-    msg.header.stamp = tStamp;
-    msg.header.frame_id = "base_link";
+void PointCloud2Msg::setMetadataMembers(int width, int height, ros::Time tStamp)
+{
+  sensor_msgs::PointCloud2Modifier modifier(msg);
+  modifier.setPointCloud2Fields(
+    4, "x", 1, sensor_msgs::PointField::FLOAT32, "y", 1, sensor_msgs::PointField::FLOAT32, "z", 1,
+    sensor_msgs::PointField::FLOAT32, "intensity", 1, sensor_msgs::PointField::UINT16);
+  msg.header.stamp = tStamp;
+  msg.header.frame_id = "base_link";
 
-    msg.width = width;
-    msg.height = height;
+  msg.width = width;
+  msg.height = height;
 
-    msg.is_bigendian = false;
-    msg.point_step = 3 * sizeOfPointField(sensor_msgs::PointField::FLOAT32) +
-                     sizeOfPointField(sensor_msgs::PointField::UINT16);
-    msg.row_step = msg.point_step * msg.width;
-    msg.is_dense = false;
+  msg.is_bigendian = false;
+  msg.point_step = 3 * sizeOfPointField(sensor_msgs::PointField::FLOAT32) +
+                   sizeOfPointField(sensor_msgs::PointField::UINT16);
+  msg.row_step = msg.point_step * msg.width;
+  msg.is_dense = false;
 
-    msg.data.resize(width * height * msg.point_step);
+  msg.data.resize(width * height * msg.point_step);
 }
 
-void PointCloud2Msg::setDataMembers(const std::shared_ptr<Camera> &camera,
-                                    aditof::Frame **frame) {
+void PointCloud2Msg::setDataMembers(const std::shared_ptr<Camera> & camera, aditof::Frame ** frame)
+{
+  sensor_msgs::PointCloud2Iterator<float> iter_x(msg, "x");
+  sensor_msgs::PointCloud2Iterator<float> iter_y(msg, "y");
+  sensor_msgs::PointCloud2Iterator<float> iter_z(msg, "z");
+  sensor_msgs::PointCloud2Iterator<uint16_t> iter_intensity(msg, "intensity");
 
-    sensor_msgs::PointCloud2Iterator<float> iter_x(msg, "x");
-    sensor_msgs::PointCloud2Iterator<float> iter_y(msg, "y");
-    sensor_msgs::PointCloud2Iterator<float> iter_z(msg, "z");
-    sensor_msgs::PointCloud2Iterator<uint16_t> iter_intensity(msg, "intensity");
+  const int frameHeight = static_cast<int>(msg.height);
+  const int frameWidth = static_cast<int>(msg.width);
 
-    const int frameHeight = static_cast<int>(msg.height);
-    const int frameWidth = static_cast<int>(msg.width);
+  int16_t * frameDataXYZ = reinterpret_cast<int16_t *>(getFrameData(frame, "xyz"));
+  uint16_t * frameDataIR = getFrameData(frame, "ir");
 
-    int16_t *frameDataXYZ =
-        reinterpret_cast<int16_t *>(getFrameData(frame, "xyz"));
-    uint16_t *frameDataIR = getFrameData(frame, "ir");
+  irTo16bitGrayscale(frameDataIR, frameWidth, frameHeight);
 
-    irTo16bitGrayscale(frameDataIR, frameWidth, frameHeight);
+  for (int i = 0; i < frameHeight; i++) {
+    for (int j = 0; j < frameWidth; j++, ++iter_x, ++iter_y, ++iter_z, ++iter_intensity) {
+      int index = i * msg.width + j;
 
-    for (int i = 0; i < frameHeight; i++) {
-        for (int j = 0; j < frameWidth;
-             j++, ++iter_x, ++iter_y, ++iter_z, ++iter_intensity) {
-            int index = i * msg.width + j;
+      *iter_x = frameDataXYZ[3 * index] / 1000.0;
+      *iter_y = frameDataXYZ[3 * index + 1] / 1000.0;
+      *iter_z = frameDataXYZ[3 * index + 2] / 1000.0;
 
-            *iter_x = frameDataXYZ[3 * index] / 1000.0;
-            *iter_y = frameDataXYZ[3 * index + 1] / 1000.0;
-            *iter_z = frameDataXYZ[3 * index + 2] / 1000.0;
-
-            *iter_intensity = frameDataIR[index];
-        }
+      *iter_intensity = frameDataIR[index];
     }
+  }
 }
 
-void PointCloud2Msg::publishMsg(const ros::Publisher &pub) { pub.publish(msg); }
+void PointCloud2Msg::publishMsg(const ros::Publisher & pub) { pub.publish(msg); }

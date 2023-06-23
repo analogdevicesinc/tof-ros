@@ -37,12 +37,13 @@
 #include <ros/publisher.h>
 #include <ros/time.h>
 
-class AditofSensorMsg {
-  public:
-    virtual ~AditofSensorMsg() = default;
-    virtual void FrameDataToMsg(const std::shared_ptr<aditof::Camera> &camera,
-                                aditof::Frame **frame, ros::Time tStamp) = 0;
-    virtual void publishMsg(const ros::Publisher &pub) = 0;
+class AditofSensorMsg
+{
+public:
+  virtual ~AditofSensorMsg() = default;
+  virtual void FrameDataToMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp) = 0;
+  virtual void publishMsg(const ros::Publisher & pub) = 0;
 };
 
-#endif // ADITOF_SENSOR_MSG_H
+#endif  // ADITOF_SENSOR_MSG_H

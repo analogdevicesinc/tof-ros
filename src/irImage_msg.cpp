@@ -35,54 +35,57 @@ using namespace aditof;
 
 IRImageMsg::IRImageMsg() {}
 
-IRImageMsg::IRImageMsg(const std::shared_ptr<aditof::Camera> &camera,
-                       aditof::Frame **frame, std::string encoding,
-                       ros::Time tStamp) {
-    imgEncoding = encoding;
-    // FrameDataToMsg(camera, frame, tStamp);
+IRImageMsg::IRImageMsg(
+  const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, std::string encoding,
+  ros::Time tStamp)
+{
+  imgEncoding = encoding;
+  // FrameDataToMsg(camera, frame, tStamp);
 }
 
-void IRImageMsg::FrameDataToMsg(const std::shared_ptr<Camera> &camera,
-                                aditof::Frame **frame, ros::Time tStamp) {
-    FrameDetails fDetails;
-    (*frame)->getDetails(fDetails);
+void IRImageMsg::FrameDataToMsg(
+  const std::shared_ptr<Camera> & camera, aditof::Frame ** frame, ros::Time tStamp)
+{
+  FrameDetails fDetails;
+  (*frame)->getDetails(fDetails);
 
-    setMetadataMembers(fDetails.width, fDetails.height, tStamp);
+  setMetadataMembers(fDetails.width, fDetails.height, tStamp);
 
-    uint16_t *frameData = getFrameData(frame, "ir");
-    if (!frameData) {
-        LOG(ERROR) << "getFrameData call failed";
-        return;
-    }
+  uint16_t * frameData = getFrameData(frame, "ir");
+  if (!frameData) {
+    LOG(ERROR) << "getFrameData call failed";
+    return;
+  }
 
-    setDataMembers(camera, frameData);
+  setDataMembers(camera, frameData);
 }
 
-void IRImageMsg::setMetadataMembers(int width, int height, ros::Time tStamp) {
-    msg.header.stamp = tStamp;
-    msg.header.frame_id = "aditof_ir_img";
+void IRImageMsg::setMetadataMembers(int width, int height, ros::Time tStamp)
+{
+  msg.header.stamp = tStamp;
+  msg.header.frame_id = "aditof_ir_img";
 
-    msg.width = width;
-    msg.height = height;
+  msg.width = width;
+  msg.height = height;
 
-    msg.encoding = imgEncoding;
-    msg.is_bigendian = false;
+  msg.encoding = imgEncoding;
+  msg.is_bigendian = false;
 
-    int pixelByteCnt = sensor_msgs::image_encodings::bitDepth(imgEncoding) / 8 *
-                       sensor_msgs::image_encodings::numChannels(imgEncoding);
-    msg.step = width * pixelByteCnt;
+  int pixelByteCnt = sensor_msgs::image_encodings::bitDepth(imgEncoding) / 8 *
+                     sensor_msgs::image_encodings::numChannels(imgEncoding);
+  msg.step = width * pixelByteCnt;
 
-    msg.data.resize(msg.step * height);
+  msg.data.resize(msg.step * height);
 }
 
-void IRImageMsg::setDataMembers(const std::shared_ptr<Camera> &camera,
-                                uint16_t *frameData) {
-    if (msg.encoding.compare(sensor_msgs::image_encodings::MONO16) == 0) {
-        irTo16bitGrayscale(frameData, msg.width, msg.height);
-        uint8_t *msgDataPtr = msg.data.data();
-        std::memcpy(msgDataPtr, frameData, msg.step * msg.height);
-    } else
-        ROS_ERROR("Image encoding invalid or not available");
+void IRImageMsg::setDataMembers(const std::shared_ptr<Camera> & camera, uint16_t * frameData)
+{
+  if (msg.encoding.compare(sensor_msgs::image_encodings::MONO16) == 0) {
+    irTo16bitGrayscale(frameData, msg.width, msg.height);
+    uint8_t * msgDataPtr = msg.data.data();
+    std::memcpy(msgDataPtr, frameData, msg.step * msg.height);
+  } else
+    ROS_ERROR("Image encoding invalid or not available");
 }
 
-void IRImageMsg::publishMsg(const ros::Publisher &pub) { pub.publish(msg); }
+void IRImageMsg::publishMsg(const ros::Publisher & pub) { pub.publish(msg); }

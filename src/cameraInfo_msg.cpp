@@ -36,35 +36,38 @@ using namespace aditof;
 
 CameraInfoMsg::CameraInfoMsg() {}
 
-CameraInfoMsg::CameraInfoMsg(const std::shared_ptr<aditof::Camera> &camera,
-                             aditof::Frame **frame, ros::Time tStamp) {
-    FrameDataToMsg(camera, frame, tStamp);
+CameraInfoMsg::CameraInfoMsg(
+  const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp)
+{
+  FrameDataToMsg(camera, frame, tStamp);
 }
 
-void CameraInfoMsg::FrameDataToMsg(const std::shared_ptr<Camera> &camera,
-                                   aditof::Frame **frame, ros::Time tStamp) {
-    FrameDetails fDetails;
-    (*frame)->getDetails(fDetails);
+void CameraInfoMsg::FrameDataToMsg(
+  const std::shared_ptr<Camera> & camera, aditof::Frame ** frame, ros::Time tStamp)
+{
+  FrameDetails fDetails;
+  (*frame)->getDetails(fDetails);
 
-    setMembers(camera, fDetails.width, fDetails.height, tStamp);
+  setMembers(camera, fDetails.width, fDetails.height, tStamp);
 }
 
-void CameraInfoMsg::setMembers(const std::shared_ptr<Camera> &camera, int width,
-                               int height, ros::Time tStamp) {
-    msg.header.stamp = tStamp;
-    msg.header.frame_id = "aditof_camera_info";
+void CameraInfoMsg::setMembers(
+  const std::shared_ptr<Camera> & camera, int width, int height, ros::Time tStamp)
+{
+  msg.header.stamp = tStamp;
+  msg.header.frame_id = "aditof_camera_info";
 
-    msg.width = width;
-    msg.height = height;
-    msg.distortion_model = "plumb_bob";
+  msg.width = width;
+  msg.height = height;
+  msg.distortion_model = "plumb_bob";
 
-    IntrinsicParameters intr = getIntrinsics(camera);
+  IntrinsicParameters intr = getIntrinsics(camera);
 
-    msg.D = {intr.k1, intr.k2, intr.p1, intr.p2, intr.k3};
-    msg.K = {intr.fx, 0.0, intr.cx, 0.0, intr.fy, intr.cy, 0.0, 0.0, 1.0};
-    msg.R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
-    msg.P = {msg.K[0], msg.K[1], msg.K[2], 0.0f,     msg.K[3], msg.K[4],
-             msg.K[5], 0.0f,     msg.K[6], msg.K[7], msg.K[8], 0.0f};
+  msg.D = {intr.k1, intr.k2, intr.p1, intr.p2, intr.k3};
+  msg.K = {intr.fx, 0.0, intr.cx, 0.0, intr.fy, intr.cy, 0.0, 0.0, 1.0};
+  msg.R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+  msg.P = {msg.K[0], msg.K[1], msg.K[2], 0.0f,     msg.K[3], msg.K[4],
+           msg.K[5], 0.0f,     msg.K[6], msg.K[7], msg.K[8], 0.0f};
 }
 
-void CameraInfoMsg::publishMsg(const ros::Publisher &pub) { pub.publish(msg); }
+void CameraInfoMsg::publishMsg(const ros::Publisher & pub) { pub.publish(msg); }
