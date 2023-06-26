@@ -35,43 +35,43 @@
 
 #include <aditof/camera.h>
 #include <glog/logging.h>
+
 #include <mutex>
 
-enum class ModeTypes { NONE, mode0, mode1, mode2, mode3 };
+enum class ModeTypes
+{
+  NONE,
+  mode0,
+  mode1,
+  mode2,
+  mode3
+};
 
-std::string *parseArgs(int argc, char **argv);
-std::shared_ptr<aditof::Camera> initCamera(std::string *arguments);
-void startCamera(const std::shared_ptr<aditof::Camera> &camera);
-void stopCamera(const std::shared_ptr<aditof::Camera> &camera);
-void setFrameType(const std::shared_ptr<aditof::Camera> &camera,
-                  const std::string &type);
-void getAvailableFrameType(const std::shared_ptr<aditof::Camera> &camera,
-                           std::vector<std::string> &availableFrameTypes);
-void getCameraDataDetails(const std::shared_ptr<aditof::Camera> &camera,
-                          aditof::CameraDetails &details);
-void enableCameraDepthCompute(const std::shared_ptr<aditof::Camera> &camera,
-                              const bool value);
-void setMode(const std::shared_ptr<aditof::Camera> &camera,
-             const std::string &mode);
-void setCameraRevision(const std::shared_ptr<aditof::Camera> &camera,
-                       const std::string rev);
-void setIrGammaCorrection(const std::shared_ptr<aditof::Camera> &camera,
-                          float gamma);
-void applyNoiseReduction(const std::shared_ptr<aditof::Camera> &camera,
-                         int threshold);
-void disableNoiseReduction(const std::shared_ptr<aditof::Camera> &camera);
-void getNewFrame(const std::shared_ptr<aditof::Camera> &camera,
-                 aditof::Frame **frame);
-uint16_t *getFrameData(aditof::Frame **frame, const std::string &dataType);
-aditof::IntrinsicParameters
-getIntrinsics(const std::shared_ptr<aditof::Camera> &camera);
-int getRangeMax(const std::shared_ptr<aditof::Camera> &camera);
-int getRangeMin(const std::shared_ptr<aditof::Camera> &camera);
-void irTo16bitGrayscale(uint16_t *frameData, int width, int height);
+std::string * parseArgs(int argc, char ** argv);
+std::shared_ptr<aditof::Camera> initCamera(std::string * arguments);
+void startCamera(const std::shared_ptr<aditof::Camera> & camera);
+void stopCamera(const std::shared_ptr<aditof::Camera> & camera);
+void setFrameType(const std::shared_ptr<aditof::Camera> & camera, const std::string & type);
+void getAvailableFrameType(
+  const std::shared_ptr<aditof::Camera> & camera, std::vector<std::string> & availableFrameTypes);
+void getCameraDataDetails(
+  const std::shared_ptr<aditof::Camera> & camera, aditof::CameraDetails & details);
+void enableCameraDepthCompute(const std::shared_ptr<aditof::Camera> & camera, const bool value);
+void setMode(const std::shared_ptr<aditof::Camera> & camera, const std::string & mode);
+void setCameraRevision(const std::shared_ptr<aditof::Camera> & camera, const std::string rev);
+void setIrGammaCorrection(const std::shared_ptr<aditof::Camera> & camera, float gamma);
+void applyNoiseReduction(const std::shared_ptr<aditof::Camera> & camera, int threshold);
+void disableNoiseReduction(const std::shared_ptr<aditof::Camera> & camera);
+void getNewFrame(const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame);
+uint16_t * getFrameData(aditof::Frame ** frame, const std::string & dataType);
+aditof::IntrinsicParameters getIntrinsics(const std::shared_ptr<aditof::Camera> & camera);
+int getRangeMax(const std::shared_ptr<aditof::Camera> & camera);
+int getRangeMin(const std::shared_ptr<aditof::Camera> & camera);
+void irTo16bitGrayscale(uint16_t * frameData, int width, int height);
 enum ModeTypes intToMode(int var);
 int modeToInt(ModeTypes mode);
-void getAvailableFrameTypes(const std::shared_ptr<aditof::Camera> &camera,
-                            std::vector<std::string> &availableFrameTypes);
-void versioningAuxiliaryFunction(const std::shared_ptr<aditof::Camera> &camera);
+void getAvailableFrameTypes(
+  const std::shared_ptr<aditof::Camera> & camera, std::vector<std::string> & availableFrameTypes);
+void versioningAuxiliaryFunction(const std::shared_ptr<aditof::Camera> & camera);
 
-#endif // ADITOF_UTILS_H
+#endif  // ADITOF_UTILS_H

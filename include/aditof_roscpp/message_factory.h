@@ -39,19 +39,21 @@
 #include "pointcloud2_msg.h"
 #include "rawImage_msg.h"
 
-enum class MessageType {
-    sensor_msgs_PointCloud2,
-    sensor_msgs_DepthImage,
-    sensor_msgs_IRImage,
-    sensor_msgs_CameraInfo,
-    sensor_msgs_RAWImage
+enum class MessageType
+{
+  sensor_msgs_PointCloud2,
+  sensor_msgs_DepthImage,
+  sensor_msgs_IRImage,
+  sensor_msgs_CameraInfo,
+  sensor_msgs_RAWImage
 };
 
-class MessageFactory {
-  public:
-    static AditofSensorMsg *
-    create(const std::shared_ptr<aditof::Camera> &camera, aditof::Frame **frame,
-           MessageType type, ros::Time tStamp);
+class MessageFactory
+{
+public:
+  static AditofSensorMsg * create(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, MessageType type,
+    ros::Time tStamp);
 };
 
-#endif // MESSAGE_FACTORY_H
+#endif  // MESSAGE_FACTORY_H

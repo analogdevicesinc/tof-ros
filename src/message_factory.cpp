@@ -32,24 +32,21 @@
  */
 #include "message_factory.h"
 
-AditofSensorMsg *
-MessageFactory::create(const std::shared_ptr<aditof::Camera> &camera,
-                       aditof::Frame **frame, MessageType type,
-                       ros::Time tStamp) {
-    switch (type) {
+AditofSensorMsg * MessageFactory::create(
+  const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, MessageType type,
+  ros::Time tStamp)
+{
+  switch (type) {
     case MessageType::sensor_msgs_PointCloud2:
-        return new PointCloud2Msg(camera, frame, tStamp);
+      return new PointCloud2Msg(camera, frame, tStamp);
     case MessageType::sensor_msgs_DepthImage:
-        return new DepthImageMsg(camera, frame,
-                                 sensor_msgs::image_encodings::RGBA8, tStamp);
+      return new DepthImageMsg(camera, frame, sensor_msgs::image_encodings::RGBA8, tStamp);
     case MessageType::sensor_msgs_IRImage:
-        return new IRImageMsg(camera, frame,
-                              sensor_msgs::image_encodings::MONO16, tStamp);
+      return new IRImageMsg(camera, frame, sensor_msgs::image_encodings::MONO16, tStamp);
     case MessageType::sensor_msgs_CameraInfo:
-        return new CameraInfoMsg(camera, frame, tStamp);
+      return new CameraInfoMsg(camera, frame, tStamp);
     case MessageType::sensor_msgs_RAWImage:
-        return new RAWImageMsg(camera, frame,
-                               sensor_msgs::image_encodings::MONO16, tStamp);
-    }
-    return nullptr;
+      return new RAWImageMsg(camera, frame, sensor_msgs::image_encodings::MONO16, tStamp);
+  }
+  return nullptr;
 }

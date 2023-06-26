@@ -34,51 +34,51 @@
 #define IRIMAGE_MSG_H
 
 #include <aditof/frame.h>
+#include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
 
 #include "aditof_sensor_msg.h"
 #include "aditof_utils.h"
 
-#include <sensor_msgs/Image.h>
-#include <sensor_msgs/image_encodings.h>
-
-class IRImageMsg : public AditofSensorMsg {
-  public:
-    IRImageMsg(const std::shared_ptr<aditof::Camera> &camera,
-               aditof::Frame **frame, std::string encoding, ros::Time tStamp);
-    /**
+class IRImageMsg : public AditofSensorMsg
+{
+public:
+  IRImageMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, std::string encoding,
+    ros::Time tStamp);
+  /**
    * @brief Each message corresponds to one frame
    */
-    sensor_msgs::Image msg;
+  sensor_msgs::Image msg;
 
-    /**
+  /**
    * @brief Will be assigned a value from the list of strings in
    * include/sensor_msgs/image_encodings.h
    */
-    std::string imgEncoding;
+  std::string imgEncoding;
 
-    /**
+  /**
    * @brief Converts the frame data to a message
    */
-    void FrameDataToMsg(const std::shared_ptr<aditof::Camera> &camera,
-                        aditof::Frame **frame, ros::Time tStamp);
-    /**
+  void FrameDataToMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp);
+  /**
    * @brief Assigns values to the message fields concerning metadata
    */
-    void setMetadataMembers(int width, int height, ros::Time tStamp);
+  void setMetadataMembers(int width, int height, ros::Time tStamp);
 
-    /**
+  /**
    * @brief Assigns values to the message fields concerning the point data
    */
-    void setDataMembers(const std::shared_ptr<aditof::Camera> &camera,
-                        uint16_t *frameData);
+  void setDataMembers(const std::shared_ptr<aditof::Camera> & camera, uint16_t * frameData);
 
-    /**
+  /**
    * @brief Publishes a message
    */
-    void publishMsg(const ros::Publisher &pub);
+  void publishMsg(const ros::Publisher & pub);
 
-  private:
-    IRImageMsg();
+private:
+  IRImageMsg();
 };
 
-#endif // IRIMAGE_MSG_H
+#endif  // IRIMAGE_MSG_H

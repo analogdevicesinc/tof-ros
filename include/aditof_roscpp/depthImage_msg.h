@@ -34,12 +34,11 @@
 #define DEPTHIMAGE_MSG_H
 
 #include <aditof/frame.h>
+#include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
 
 #include "aditof_sensor_msg.h"
 #include "aditof_utils.h"
-
-#include <sensor_msgs/Image.h>
-#include <sensor_msgs/image_encodings.h>
 
 // rainbow color map
 #define RED 0
@@ -49,72 +48,74 @@
 #define SAT 1.0
 #define VAL 1.0
 
-typedef struct Rgba8Color {
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
-    unsigned char a;
+typedef struct Rgba8Color
+{
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
+  unsigned char a;
 } Rgba8Color;
 
-typedef struct Rgb32Color {
-    double r;
-    double g;
-    double b;
+typedef struct Rgb32Color
+{
+  double r;
+  double g;
+  double b;
 } Rgb32Color;
 
-class DepthImageMsg : public AditofSensorMsg {
-  public:
-    DepthImageMsg(const std::shared_ptr<aditof::Camera> &camera,
-                  aditof::Frame **frame, std::string encoding,
-                  ros::Time tStamp);
+class DepthImageMsg : public AditofSensorMsg
+{
+public:
+  DepthImageMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, std::string encoding,
+    ros::Time tStamp);
 
-    /**
+  /**
    * @brief Each message corresponds to one frame
    */
-    sensor_msgs::Image msg;
+  sensor_msgs::Image msg;
 
-    /**
+  /**
    * @brief Will be assigned a value from the list of strings in
    * include/sensor_msgs/image_encodings.h
    */
-    std::string imgEncoding;
+  std::string imgEncoding;
 
-    /**
+  /**
    * @brief Converts the frame data to a message
    */
-    void FrameDataToMsg(const std::shared_ptr<aditof::Camera> &camera,
-                        aditof::Frame **frame, ros::Time tStamp);
+  void FrameDataToMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp);
 
-    /**
+  /**
    * @brief Assigns values to the message fields concerning metadata
    */
-    void setMetadataMembers(int width, int height, ros::Time tStamp);
+  void setMetadataMembers(int width, int height, ros::Time tStamp);
 
-    /**
+  /**
    * @brief Assigns values to the message fields concerning the point data
    */
-    void setDataMembers(const std::shared_ptr<aditof::Camera> &camera,
-                        uint16_t *frameData);
+  void setDataMembers(const std::shared_ptr<aditof::Camera> & camera, uint16_t * frameData);
 
-    /**
+  /**
    * @brief Converts depth data to RGBA8 color
    */
-    void dataToRGBA8(uint16_t min_int, uint16_t max_int, uint16_t *data);
+  void dataToRGBA8(uint16_t min_int, uint16_t max_int, uint16_t * data);
 
-    /**
+  /**
    * @brief Converts pixel value from HSV to RGBA
    */
-    Rgba8Color HSVtoRGBA8(double hue, double sat, double val);
-    /**
+  Rgba8Color HSVtoRGBA8(double hue, double sat, double val);
+  /**
    * @brief Publishes a message
    */
-    void publishMsg(const ros::Publisher &pub);
+  void publishMsg(const ros::Publisher & pub);
 
-    void setDepthDataFormat(int value);
-    int getDepthDataFormat();
+  void setDepthDataFormat(int value);
+  int getDepthDataFormat();
 
-  private:
-    DepthImageMsg();
+private:
+  DepthImageMsg();
 };
 
-#endif // DEPTHIMAGE_MSG_H
+#endif  // DEPTHIMAGE_MSG_H

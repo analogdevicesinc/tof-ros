@@ -30,43 +30,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#include "message_factory.h"
-#include "publisher_factory.h"
 #include <aditof_utils.h>
 #include <ros/ros.h>
 
+#include "message_factory.h"
+#include "publisher_factory.h"
+
 using namespace aditof;
 
-int main(int argc, char **argv) {
-    std::string *arguments = parseArgs(argc, argv);
+int main(int argc, char ** argv)
+{
+  std::string * arguments = parseArgs(argc, argv);
 
-    std::shared_ptr<Camera> camera = initCamera(arguments);
+  std::shared_ptr<Camera> camera = initCamera(arguments);
 
-    ros::init(argc, argv, "aditof_camera_node");
-    ROS_ASSERT_MSG(camera, "initCamera call failed");
-    setFrameType(camera, "lrqmp");
-    ROS_ASSERT_MSG(camera, "camera frametype set failed");
-    startCamera(camera);
-    ROS_ASSERT_MSG(camera, "start camera failed");
-    ros::NodeHandle nHandle("aditof_roscpp");
-    ROS_ASSERT_MSG(camera, "handle error");
+  ros::init(argc, argv, "aditof_camera_node");
+  ROS_ASSERT_MSG(camera, "initCamera call failed");
+  setFrameType(camera, "lrqmp");
+  ROS_ASSERT_MSG(camera, "camera frametype set failed");
+  startCamera(camera);
+  ROS_ASSERT_MSG(camera, "start camera failed");
+  ros::NodeHandle nHandle("aditof_roscpp");
+  ROS_ASSERT_MSG(camera, "handle error");
 
-    ros::Publisher frame_pubisher =
-        nHandle.advertise<sensor_msgs::PointCloud2>("aditof_pcloud", 5);
+  ros::Publisher frame_pubisher = nHandle.advertise<sensor_msgs::PointCloud2>("aditof_pcloud", 5);
 
-    auto tmp = new Frame;
-    aditof::Frame **frame = &tmp;
+  auto tmp = new Frame;
+  aditof::Frame ** frame = &tmp;
 
+  getNewFrame(camera, frame);
+  PointCloud2Msg * msg = new PointCloud2Msg(camera, frame, ros::Time::now());
+
+  while (ros::ok()) {
     getNewFrame(camera, frame);
-    PointCloud2Msg *msg = new PointCloud2Msg(camera, frame, ros::Time::now());
+    msg->FrameDataToMsg(camera, frame, ros::Time::now());
+    msg->publishMsg(frame_pubisher);
+    // ros::spinOnce();
+  }
 
-    while (ros::ok()) {
-        getNewFrame(camera, frame);
-        msg->FrameDataToMsg(camera, frame, ros::Time::now());
-        msg->publishMsg(frame_pubisher);
-        // ros::spinOnce();
-    }
-
-    delete msg;
-    return 0;
+  delete msg;
+  return 0;
 }

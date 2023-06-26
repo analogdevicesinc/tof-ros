@@ -34,44 +34,44 @@
 #define POINTCLOUD2_MSG_H
 
 #include <aditof/frame.h>
+#include <sensor_msgs/point_cloud2_iterator.h>
 
 #include "aditof_sensor_msg.h"
 #include "aditof_utils.h"
-#include <sensor_msgs/point_cloud2_iterator.h>
 
-class PointCloud2Msg : public AditofSensorMsg {
-  public:
-    PointCloud2Msg(const std::shared_ptr<aditof::Camera> &camera,
-                   aditof::Frame **frame, ros::Time tStamp);
+class PointCloud2Msg : public AditofSensorMsg
+{
+public:
+  PointCloud2Msg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp);
 
-    /**
+  /**
    * @brief Each message corresponds to one frame
    */
-    sensor_msgs::PointCloud2 msg;
+  sensor_msgs::PointCloud2 msg;
 
-    /**
+  /**
    * @brief Converts the frame data to a message
    */
-    void FrameDataToMsg(const std::shared_ptr<aditof::Camera> &camera,
-                        aditof::Frame **frame, ros::Time tStamp);
-    /**
+  void FrameDataToMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp);
+  /**
    * @brief Assigns values to the message fields concerning metadata
    */
-    void setMetadataMembers(int width, int height, ros::Time tStamp);
+  void setMetadataMembers(int width, int height, ros::Time tStamp);
 
-    /**
+  /**
    * @brief Assigns values to the message fields concerning the point data
    */
-    void setDataMembers(const std::shared_ptr<aditof::Camera> &camera,
-                        aditof::Frame **frame);
+  void setDataMembers(const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame);
 
-    /**
+  /**
    * @brief Publishes a message
    */
-    void publishMsg(const ros::Publisher &pub);
+  void publishMsg(const ros::Publisher & pub);
 
-  private:
-    PointCloud2Msg();
+private:
+  PointCloud2Msg();
 };
 
-#endif // POINTCLOUD2_MSG_H
+#endif  // POINTCLOUD2_MSG_H

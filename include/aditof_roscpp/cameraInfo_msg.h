@@ -33,44 +33,44 @@
 #ifndef CAMERAINFO_MSG_H
 #define CAMERAINFO_MSG_H
 
-#include <boost/array.hpp>
-#include <string>
-
 #include <aditof/frame.h>
 #include <glog/logging.h>
+#include <sensor_msgs/CameraInfo.h>
+
+#include <boost/array.hpp>
+#include <string>
 
 #include "aditof_sensor_msg.h"
 #include "aditof_utils.h"
 
-#include <sensor_msgs/CameraInfo.h>
-
-class CameraInfoMsg : public AditofSensorMsg {
-  public:
-    CameraInfoMsg(const std::shared_ptr<aditof::Camera> &camera,
-                  aditof::Frame **frame, ros::Time tStamp);
-    /**
+class CameraInfoMsg : public AditofSensorMsg
+{
+public:
+  CameraInfoMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp);
+  /**
    * @brief Each message corresponds to one frame
    */
-    sensor_msgs::CameraInfo msg;
+  sensor_msgs::CameraInfo msg;
 
-    /**
+  /**
    * @brief Converts the frame data to a message
    */
-    void FrameDataToMsg(const std::shared_ptr<aditof::Camera> &camera,
-                        aditof::Frame **frame, ros::Time tStamp);
-    /**
+  void FrameDataToMsg(
+    const std::shared_ptr<aditof::Camera> & camera, aditof::Frame ** frame, ros::Time tStamp);
+  /**
    * @brief Assigns values to the message fields
    */
-    void setMembers(const std::shared_ptr<aditof::Camera> &camera, int width,
-                    int height, ros::Time tStamp);
+  void setMembers(
+    const std::shared_ptr<aditof::Camera> & camera, int width, int height, ros::Time tStamp);
 
-    /**
+  /**
    * @brief Publishes a message
    */
-    void publishMsg(const ros::Publisher &pub);
+  void publishMsg(const ros::Publisher & pub);
 
-  private:
-    CameraInfoMsg();
+private:
+  CameraInfoMsg();
 };
 
-#endif // CAMERAINFO_MSG_H
+#endif  // CAMERAINFO_MSG_H
