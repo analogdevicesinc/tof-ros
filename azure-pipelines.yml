@@ -1,0 +1,35 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+- master
+
+pr:
+- main
+- master
+
+resources:
+  containers:
+  - container: ubuntu_18_04_ros_melodic
+    image: ros:melodic-ros-base
+  - container: ubuntu_20_04_ros_noetic
+    image: ros:noetic-ros-base
+
+strategy:
+  matrix:
+    ubuntu_18_04: 
+      buildContainer: ubuntu_18_04_ros_melodic
+    ubuntu_20_04:
+      buildContainer: ubuntu_20_04_ros_noetic
+
+container: $(buildContainer)
+
+steps:
+- script: rm -rf ToF && git clone https://github.com/analogdevicesinc/ToF && cd ToF && mkdir build && cd build && cmake -DWITH_EXAMPLES=off -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets" -DUSE_DEPTH_COMPUTE_STUBS=1 .. &&  make install .
+  displayName: 'ToF Build'
+
+- script: rm -rf catkin_ws && mkdir -p catkin_ws/src && cd catkin_ws/src && git clone https://github.com/analogdevicesinc/tof-ros && cd ../ && . /opt/ros/melodic/setup.sh && catkin_make
+  displayName: 'ToF-ros Build'
