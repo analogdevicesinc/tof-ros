@@ -4,12 +4,10 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
-- master
+- azure-pipelines
 
 pr:
-- main
-- master
+- azure-pipelines
 
 resources:
   containers:
