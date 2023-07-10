@@ -56,13 +56,12 @@ void PublisherFactory::createNew(
   if (0 <= modeInt && modeInt < availableFrameTypes.size()) {
     setFrameType(camera, availableFrameTypes.at(modeInt));
     m_currentMode = mode;
-    LOG(INFO) << "Frame typ set to: " << availableFrameTypes.at(modeInt);
+    LOG(INFO) << "Frame type set to: " << availableFrameTypes.at(modeInt);
   } else {
     LOG(ERROR) << "Not available frame type";
     return;
   }
 
-  LOG(INFO) << "Changed enable depth compute type";
   *frame = new aditof::Frame();
 
   // Get frame types
