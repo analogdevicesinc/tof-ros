@@ -1,0 +1,31 @@
+
+trigger:
+- main
+
+pr:
+- main
+
+container:
+  image: ros:noetic-ros-base
+  options: '-u root:sudo'
+
+steps:
+- script: sudo chmod 777 dependencies_setup.sh && ./dependencies_setup.sh
+  displayName: 'Install dependencies'
+
+- script: git clone https://github.com/analogdevicesinc/ToF && cd ToF && mkdir build && cd build && sudo cmake -DWITH_EXAMPLES=off -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets" -DUSE_DEPTH_COMPUTE_STUBS=1 .. && sudo make install .
+  displayName: 'ToF Build'
+
+- script: |
+    #!/bin/bash
+    export USER=vsts_azpcontainer
+    cd /home/$USER
+    rm -rf catkin_ws
+    sudo mkdir -p catkin_ws/src
+    cd catkin_ws/src
+    sudo git clone https://github.com/analogdevicesinc/tof-ros
+    cd ..
+    source /opt/ros/noetic/setup.sh
+    sudo chmod -R 777 /home/vsts_azpcontainer/catkin_ws
+    catkin_make
+  displayName: 'ToF-ros Build'
