@@ -67,24 +67,24 @@ roslaunch aditof_roscpp camera_node.launch ip:=<ip addr> config_file:="<path> mo
 |---------------------------------|----------|---|
 | With RQT Dynamic reconfigure    | USB      |`roslaunch aditof_roscpp camera_node_gui.launch config_file:="<path>"`   |
 |                                 | Ethernet |`roslaunch aditof_roscpp camera_node_gui.launch ip:="10.42.0.1" config_file:="<path>"`   |
-| Without RQT Dynamic reconfigure | USB      |`roslaunch aditof_roscpp camera_node.launch config_file:="<path>" mode:="1" use_depthCompute:="false"`   |
-|                                 | Ethernet |`roslaunch aditof_roscpp camera_node.launch ip:="10.42.0.1" config_file:="<path>  mode:="1" use_depthCompute:="false"`   |
+| Without RQT Dynamic reconfigure | USB      |`roslaunch aditof_roscpp camera_node.launch config_file:="<path>" mode:="1"`   |
+|                                 | Ethernet |`roslaunch aditof_roscpp camera_node.launch ip:="10.42.0.1" config_file:="<path>  mode:="1"`   |
 
 
 ### Parameters:
- [config_file:"<<b>path></b>"]
-* ```config/config_adsd3500_adsd3030_new_modes.json```
-* ```config/config_adsd3500_adsd3030_old_modes.json```
-* ```config/config_crosby_adsd3500_new_modes.json```
-* ```config/config_crosby_nxp.json```
-* ```config/config_crosby_old_modes.json```
+[config_file:="<<b>path></b>"]
+* ```config/config_adsd3500_adsd3100.json``` ("Crosby")
+* ```config/config_adsd3500_adsd3030.json``` ("Adsd3030")
 
 
- [mode]:
-|          | New modes                                                                      | Old modes                                               |
-|----------|--------------------------------------------------------------------------------|---------------------------------------------------------|
-| adsd3500 | mode 0 - sr-native; mode 1 - lr-native; mode 2 - sr-qnative; mode 3 - lr-qnative  | mode 0 - lt_bin; mode 1 - pcmmp; mode 2 - qmp; mode 3 - mp |
-| adsd3030 | mode 0 - sr-native; mode 1 - lr-native; mode 2 - sr-qnative; mode 3 - lr-qnative  | mode 0 - vga                                            |
+[mode:="<<b>mode></b>"] (for both cameras):
+ * 0: sr-native (short-range native)
+ * 1: lr-native (long-range native)
+ * 2: sr-qnative (short-range quarter native)
+ * 3: lr-qnative (long-range quarter native)
+ * 4: pcm-native 
+ * 6: sr-mixed (short-range mixed)
+ * 5: lr-mixed (long-range mixed)
 
 
 
