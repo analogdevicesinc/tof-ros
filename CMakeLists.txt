@@ -38,8 +38,6 @@ target_link_libraries(aditof_camera_node aditof::aditof)
 target_link_libraries(aditof_camera_node ${catkin_LIBRARIES})
 
 add_library(tofi_compute SHARED IMPORTED)
-target_link_libraries(aditof_camera_node)
-
 
 add_dependencies(aditof_camera_node ${PROJECT_NAME}_gencfg)
 
@@ -59,8 +57,9 @@ if(WITH_ROS_EXAMPLES)
 endif()
 ## Copying config files and depth compute libraries from sdk/config, sdk/lib folders to build/examples/first-frame and build/first-frame/Debug or Release folders
 # FILE(GLOB CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/config/*)
-# install(FILES ${CONFIG_FILES} DESTINATION ${CMAKE_BINARY_DIR}/config/)
+# install(FILES ${CONFIG_FILES} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../../config/)
 # install(FILES ${CONFIG_FILES} DESTINATION lib/${PROJECT_NAME}/config/)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config DESTINATION /home/$ENV{USER}/.ros/)
-# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config DESTINATION ${ROS_HOME}/)
