@@ -1,0 +1,14 @@
+<launch>
+        <arg name="ip" default='"10.42.0.1"'/>
+        <arg name="config_file" default="config/config_adsd3500_adsd3100.json"/>
+        <arg name="mode" default="2"/>
+        <node 
+                pkg="aditof_roscpp" 
+                type="aditof_camera_node"
+                name="aditof_camera_node" 
+                args="ip=$(arg ip) config_file=$(arg config_file) mode=$(arg mode) rqt=false" 
+                output="screen" 
+                cwd='ROS_HOME'
+        />
+</launch>
+  
