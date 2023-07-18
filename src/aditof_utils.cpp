@@ -88,7 +88,7 @@ std::string * parseArgs(int argc, char ** argv)
   }
 
   std::string * result = new std::string[5];
-  result[0] = ip;
+  result[0] = std::string("ip:") + ip;
   result[1] = config_path;
   result[2] = mode;
   result[3] = rqt;
