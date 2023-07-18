@@ -43,36 +43,29 @@ git clone https://github.com/analogdevicesinc/tof-ros
 After cloning the repository in the ``catkin_ws/ run the following command:
  
 ```console
+export ROS_HOME=~/.ros/
 catkin_make
 source devel/setup.bash
 ```
 
 ## Starting the camera node
 
-### With ```roslaunch```
-
-* EVAL-ADTF3175-NXZ : ```roslaunch aditof_roscpp camera_EVAL-ADTF3175-NXZ.launch```
-* EVAL-ADTF3175D-NXZ : ```roslaunch aditof_roscpp camera_EVAL-ADTF3175D-NXZ.launch```
-
-### With ```ros run```
-
 - In the general ROS2 workspace run the following code, setting up the path towards shaed library:
 ```console
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH;/opt/websockets/lib;/usr/local/lib"
 ```
+### With ```roslaunch```
 
-```console
-roslaunch aditof_roscpp camera_node.launch ip:=<ip addr> config_file:="<path> mode:=<mode number>
+* EVAL-ADTF3175-NXZ : 
+```console 
+roslaunch aditof_roscpp EVAL-ADTF3175D.launch
 ```
 
+### With ```rosrun```
 
-|                                 |          |   |
-|---------------------------------|----------|---|
-| With RQT Dynamic reconfigure    | USB      |`roslaunch aditof_roscpp camera_node_gui.launch config_file:="<path>"`   |
-|                                 | Ethernet |`roslaunch aditof_roscpp camera_node_gui.launch ip:="10.42.0.1" config_file:="<path>"`   |
-| Without RQT Dynamic reconfigure | USB      |`roslaunch aditof_roscpp camera_node.launch config_file:="<path>" mode:="1"`   |
-|                                 | Ethernet |`roslaunch aditof_roscpp camera_node.launch ip:="10.42.0.1" config_file:="<path>  mode:="1"`   |
-
+```console
+roscore & rosrun aditof_roscpp aditof_camera_node ip="10.42.0.1" config_file=<path> mode=<mode>
+```
 
 #### Parameters:
 [config_file:="<<b>path></b>"]
@@ -86,8 +79,8 @@ roslaunch aditof_roscpp camera_node.launch ip:=<ip addr> config_file:="<path> mo
  * 2: sr-qnative (short-range quarter native)
  * 3: lr-qnative (long-range quarter native)
  * 4: pcm-native 
- * 6: sr-mixed (short-range mixed)
- * 5: lr-mixed (long-range mixed)
+ * 5: sr-mixed (short-range mixed)
+ * 6: lr-mixed (long-range mixed)
 
 
 
