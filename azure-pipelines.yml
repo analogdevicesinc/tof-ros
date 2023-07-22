@@ -19,6 +19,7 @@ steps:
 - script: |
     #!/bin/bash
     export USER=vsts_azpcontainer
+    export ROS_HOME=~/.ros/
     cd /home/$USER
     rm -rf catkin_ws
     sudo mkdir -p catkin_ws/src
