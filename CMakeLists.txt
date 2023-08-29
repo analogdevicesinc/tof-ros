@@ -14,6 +14,14 @@ find_package(aditof ${VERSION} REQUIRED)
 find_library(TOFI_COMPUTE
   NAMES tofi_compute
   PATHS /usr/lib)
+  
+set(ADITOF_MIN_VERSION "4.2.0")
+
+if(aditof_VERSION VERSION_LESS ${ADITOF_MIN_VERSION})
+    message(FATAL_ERROR "You can not compile with aditof version less than ${ADITOF_MIN_VERSION}" )
+else()
+    message(STATUS "Compiling with aditof_VERSION ${aditof_VERSION}")
+endif()  
 
 generate_dynamic_reconfigure_options(
   cfg/Aditof_roscpp.cfg
