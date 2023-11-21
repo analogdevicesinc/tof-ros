@@ -1,3 +1,5 @@
+# This repository is archived. It is no longer useful for ToF project (most projects want/use ROS2).
+
 # ROS Wrapper for [Time of Flight SDK](https://github.com/analogdevicesinc/ToF) of Analog Devices (for Ubuntu)
 
 | Ubuntu 20.04: Noetic|
